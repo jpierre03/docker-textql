@@ -27,3 +27,25 @@ Data will be available in `/mnt/` folder.
 ```bash
 docker run --rm -it -v `pwd`:/mnt/ jpierre03/textql textql --source /mnt/data.csv  -header -sql "SELECT * FROM tbl"
 ```
+
+## Usage with make
+
+Makefile :
+
+````
+DB := data.csv
+
+TEXTQL := docker run --rm -it -v `pwd`:/mnt/ jpierre03/textql textql
+SQL_COMMAND := $(TEXTQL) --source /mnt/$(DB) -header -sql
+
+all: sql-all
+  date
+
+sql-all:
+  $(SQL_COMMAND) "SELECT * FROM tbl"
+```
+
+Variables :
+
+* `BD` : define the file to use as input data source
+* `sql-all`: a target that run a `SELECT *` on data
